@@ -30,7 +30,7 @@ class Anarchy(BaseAgent):
             y.yeet()
 
         steer_correction_radians = car_direction.correction_to(car_to_ball)
-        turn = -1 if steer_correction_radians > 0 else 1
+        turn = clamp11(steer_correction_radians * -3)
 
         self.controller = SimpleControllerState(1, turn)
         return self.controller
