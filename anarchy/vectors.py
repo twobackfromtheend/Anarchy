@@ -96,13 +96,28 @@ class Vector2:
 
 
 class Vector3:
-    def __init__(self, x=0, y=0, z=0):
-        self.x = float(x)
-        self.y = float(y)
-        self.z = float(z)
+    def __init__(self, x: VectorArgument, y: Optional[float] = None, z: Optional[float] = None):
+        self.x: Number = 0
+        self.y: Number = 0
+        self.z: Number = 0
 
-    def __add__(self, val):
-        return Vector3(self.x + val.x, self.y + val.y, self.z + val.z)
+        if isinstance(x, game_data_struct.Vector3):
+            self.x = x.x
+            self.y = x.y
+            self.z = x.z
+        elif isinstance(x, game_data_struct.Rotator):
+            self.x = x.roll
+            self.y = x.pitch
+            self.z = x.yaw
+        elif y is not None and z is not None:
+            self.x = x
+            self.y = y
+            self.z = z
+        else:
+            raise TypeError("Wrong type(s) given for Vector3.y and/or Vector3.z")
+
+    def __add__(self, v: "Vector3") -> "Vector3":
+        return Vector3(self.x + v.x, self.y + v.y, self.z + v.z)
 
     def __sub__(self, val):
         return Vector3(self.x - val.x, self.y - val.y, self.z - val.z)
