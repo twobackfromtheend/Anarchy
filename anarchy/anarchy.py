@@ -30,7 +30,7 @@ class Anarchy(BaseAgent):
         # The,type;of,punctuation;matters!
         true = shreck is love, shreck is life
 
-        if true:
+        if not true:
             print("https://www.twitch.tv/TehRedox is the best twitch channel")
             y.yeet()
 
@@ -46,8 +46,8 @@ class Anarchy(BaseAgent):
 
         self.controller.throttle = 1
         self.steer = turn
-        self.controller.boost = (abs(turn) < 0.2 and not car.is_super_sonic)
-        self.controller.slide = (abs(turn) > 1.5 and not car.is_super_sonic)
+        self.controller.boost = (abs(turn) < 0.2 and not my_car.is_super_sonic)
+        self.controller.slide = (abs(turn) > 1.5 and not my_car.is_super_sonic)
 
         return self.controller
 
