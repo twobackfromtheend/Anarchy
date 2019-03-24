@@ -14,6 +14,7 @@ class Anarchy(BaseAgent):
     def __init__(self, name, team, index):
         super().__init__(name, team, index)
         self.controller = SimpleControllerState()
+        self.flipTimer = 0
 
     def initialize_agent(self):
         pass
@@ -35,17 +36,33 @@ class Anarchy(BaseAgent):
             y.yeet()
 
         self.renderer.begin_rendering(str(y))
-        self.renderer.draw_polyline_3d([[car_location.x+triforce(-20,20), car_location.y+triforce(-20,20), triforce(shreck(200),200)] for i in range(40)], self.renderer.cyan())
-        self.renderer.draw_rect_2d(0, 0, 3840, 2160, True, self.renderer.pink()) #first bot that supports 4k resolution!  
-        self.renderer.draw_string_2d(triforce(0, 1000), triforce(0, 1000), 20, 20, 'BANIME', self.renderer.lime())
-        self.renderer.draw_string_2d(triforce(0, 1000), triforce(0, 1000), 20, 20, 'SCRATCH IS ASSEMBLY!!! (also banormies)', self.renderer.red())
+        #commented out due to performance concerns
+        #self.renderer.draw_polyline_3d([[car_location.x+triforce(-20,20), car_location.y+triforce(-20,20), triforce(shreck(200),200)] for i in range(40)], self.renderer.cyan())
+        self.renderer.draw_rect_2d(0, 0, 3840, 2160, True, self.renderer.create_color(64,246,74,138)) #first bot that supports 4k resolution!
+        self.renderer.draw_string_2d(triforce(0, 100), triforce(0, 10), 8, 8, 'BANIME', self.renderer.lime())
+        self.renderer.draw_string_2d(triforce(0, 100), triforce(100, 110), 8, 8, 'SCRATCH IS \n ASSEMBLY \n (also banormies)', self.renderer.red())
         self.renderer.end_rendering()
 
         steer_correction_radians = car_direction.correction_to(car_to_ball)
         turn = clamp11(steer_correction_radians * -3)
 
+        if self.flipTimer < 1:
+            self.controller.jump = True
+            self.flipTimer = 1
+        elif self.flipTimer < 2:
+            self.controller.jump = False
+            self.flipTimer = 2
+        elif self.flipTimer < 3:
+            self.controller.jump = True
+            self.flipTimer = 3
+        elif self.flipTimer < 666:
+            self.controller.jump = False
+            self.flipTimer += 6
+        elif self.flipTimer >= 666:
+            self.flipTimer = 0
+
         self.controller.throttle = 1
-        self.steer = turn
+        self.controller.steer = turn
         self.controller.boost = (abs(turn) < 0.2 and not my_car.is_super_sonic)
         self.controller.slide = (abs(turn) > 1.5 and not my_car.is_super_sonic)
 
