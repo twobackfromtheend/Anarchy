@@ -3,7 +3,7 @@ import random
 import playsound
 from random import randint as whoops
 from random import triangular as triforce
-
+import webbrowser
 import yeet as y
 from rlbot.agents.base_agent import BaseAgent, SimpleControllerState
 from rlbot.utils.structures.game_data_struct import GameTickPacket
