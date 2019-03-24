@@ -45,11 +45,7 @@ class Vector2:
         correction = ideal_in_radians - current_in_radians
 
         # Make sure we go the 'short way'
-        if abs(correction) > math.pi:
-            if correction < 0:
-                correction += 2 * math.pi
-            else:
-                correction -= 2 * math.pi
+        if abs(correction) > math.pi: correction -= sign(correction) *  2 * math.pi
 
         return correction
 
