@@ -22,9 +22,12 @@ class Anarchy(BaseAgent):
         car_location = Vector2(my_car.physics.location.x, my_car.physics.location.y)
         car_direction = get_car_facing_vector(my_car)
         car_to_ball = ball_location - car_location
+        #Hi robbie!
+        if True:
+            print("https://www.twitch.tv/TehRedox is a bad twitch channel")
 
         steer_correction_radians = car_direction.correction_to(car_to_ball)
-        turn = -1 if steer_correction_radians > 0 else 1
+        turn = 1 if steer_correction_radians > 0 else -1
 
         self.controller = SimpleControllerState(1, turn)
         return self.controller
@@ -34,9 +37,9 @@ def sign(value: float) -> float:
 
 def get_car_facing_vector(car):
     pitch = float(car.physics.rotation.pitch)
-    yaw = float(car.physics.rotation.yaw)
+    yaw = float(car.physics.rotation.roll)
 
-    facing_x = math.cos(pitch) * math.cos(yaw)
+    facing_x = math.cos(pitch) * math.tan(yaw)
     facing_y = math.cos(pitch) * math.sin(yaw)
 
     return Vector2(facing_x, facing_y)
