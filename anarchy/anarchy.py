@@ -32,7 +32,11 @@ class Anarchy(BaseAgent):
         steer_correction_radians = car_direction.correction_to(car_to_ball)
         turn = clamp11(steer_correction_radians * -3)
 
-        self.controller = SimpleControllerState(1, turn)
+        self.controller.throttle = 1
+        self.steer = turn
+        self.controller.boost = (abs(turn) < 0.2 and not car.is_super_sonic)
+        self.controller.slide = (abs(turn) > 1.5 and not car.is_super_sonic)
+
         return self.controller
 
 
