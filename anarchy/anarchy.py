@@ -1,5 +1,6 @@
 import math
 import random
+import os
 from random import randint as whoops
 from random import triangular as triforce
 
@@ -26,7 +27,7 @@ class Anarchy(BaseAgent):
         another_thingySomeoneShouldTeachMe_howThis_WORKS = []
         self.howDoIUse_this.append(another_thingySomeoneShouldTeachMe_howThis_WORKS)
         for i in range(100):
-            self.howDoIUse_this.append(whoops(1, 666))
+            self.howDoIUse_this.append(0)
 
         countyThingy_DONOTTOUCH = 0
         while countyThingy_DONOTTOUCH < 8:
@@ -36,6 +37,8 @@ class Anarchy(BaseAgent):
                 countyThingy_DONOTTOUCH += 1
 
         self.flippityThe_CAR = 0
+        self.CountyTHIS_ALSOdonttuch = 0
+        self.WHOOPITYScooPTI = 0
 
     def initialize_agent(self):
         pass
@@ -78,6 +81,14 @@ class Anarchy(BaseAgent):
         if not true:
             print("https://www.twitch.tv/TehRedox is the best twitch channel")
             y.yeet()
+
+        self.WHOOPITYScooPTI = 0
+        for i in range(packet.num_cars):
+            self.WHOOPITYScooPTI += packet.game_cars[i].score_info.goals
+
+        if self.WHOOPITYScooPTI > self.CountyTHIS_ALSOdonttuch:
+            os.system("cmdmp3win.exe audio/" + str(whoops(0,16)) + ".mp3")
+            self.CountyTHIS_ALSOdonttuch = self.WHOOPITYScooPTI
 
         self.renderer.begin_rendering(str(y))
         # commented out due to performance concerns
