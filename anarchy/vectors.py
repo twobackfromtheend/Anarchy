@@ -17,6 +17,15 @@ class Vector2:
         correction = math.atan2(self.y, -self.x) - math.atan2(ideal.y, -ideal.x) # The in-game axes are left handed, so use -x
         return correction if abs(correction) <= math.pi else (sign(correction) * 2 * math.pi) # Make sure we go the 'short way'
 
+    @property
+    def length(self) -> float:
+        return math.sqrt(self.x**2 + self.y**2)
+
+    @property
+    def size(self) -> float:
+        return self.length
+
+
 class Vector3:
     def __init__(self, x=0, y=0, z=0):
         self.x = float(x)
@@ -31,3 +40,11 @@ class Vector3:
 
     def flatten(self) -> Vector2:
         return Vector2(self.x, self.y)
+
+    @property
+    def length(self) -> float:
+        return math.sqrt(self.x**2 + self.y**2 + self.z**2)
+
+    @property
+    def size(self) -> float:
+        return self.length
