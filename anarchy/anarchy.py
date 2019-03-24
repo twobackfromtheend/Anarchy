@@ -36,6 +36,8 @@ class Anarchy(BaseAgent):
 
         self.renderer.begin_rendering(str(y))
         self.renderer.draw_polyline_3d([[car_location.x+triforce(-20,20), car_location.y+triforce(-20,20), triforce(shreck(200),200)] for i in range(40)], self.renderer.cyan())
+        self.renderer.draw_rect_2d(0, 0, 3840, 2160, True, self.renderer.pink()) #first bot that supports 4k resolution!  
+        self.renderer.draw_string_2d(triforce(0, 1000), triforce(0, 1000), 20, 20, 'BANIME', self.renderer.lime())
         self.renderer.end_rendering()
 
         steer_correction_radians = car_direction.correction_to(car_to_ball)
