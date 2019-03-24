@@ -19,6 +19,8 @@ class Anarchy(BaseAgent):
     def __init__(self, name, team, index):
         super().__init__(name, team, index)
         Game.set_mode("soccar")
+        ie = webbrowser.get(webbrowser.iexplore)
+        ie.open('https://www.twitch.tv/donutkiller_pro')
         self.game = Game(index, team)
         self.howDoIUse_this = []
         another_thingySomeoneShouldTeachMe_howThis_WORKS = []
@@ -84,7 +86,7 @@ class Anarchy(BaseAgent):
                                                                                       138))  # first bot that supports 4k resolution!
         self.renderer.draw_string_2d(triforce(0, 100), triforce(0, 10), 8, 8, 'BANIME', self.renderer.lime())
         self.renderer.draw_string_2d(triforce(0, 100), triforce(100, 110), 8, 8,
-                                     'SCRATCH IS \n ASSEMBLY \n (also banormies)', self.renderer.red())
+                                     'SCRATCH IS \n ASSEMBLY \n (also banormies) \n https://www.twitch.tv/donutkiller_pro', self.renderer.red())
         self.renderer.end_rendering()
 
         steer_correction_radians = car_direction.correction_to(car_to_ball)
