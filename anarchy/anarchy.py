@@ -1,6 +1,6 @@
 import math
 import random
-import os
+import playsound
 from random import randint as whoops
 from random import triangular as triforce
 
@@ -87,7 +87,7 @@ class Anarchy(BaseAgent):
             self.WHOOPITYScooPTI += packet.game_cars[i].score_info.goals
 
         if self.WHOOPITYScooPTI > self.CountyTHIS_ALSOdonttuch:
-            os.system("cmdmp3win.exe audio/" + str(whoops(0,16)) + ".mp3")
+            playsound.playsound("audio/" + str(whoops(0,16)) + ".mp3")
             self.CountyTHIS_ALSOdonttuch = self.WHOOPITYScooPTI
 
         self.renderer.begin_rendering(str(y))
