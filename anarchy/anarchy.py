@@ -72,7 +72,7 @@ class Anarchy(BaseAgent):
 
         # The,type;of,punctuation;matters!
         true = shreck is love, shreck is life
-
+        main(9)
         if not true:
             print("https://www.twitch.tv/TehRedox is the best twitch channel")
             y.yeet()
