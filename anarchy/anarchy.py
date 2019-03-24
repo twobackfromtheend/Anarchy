@@ -13,8 +13,8 @@ import yeet as y
 class Anarchy(BaseAgent):
     def __init__(self, name, team, index):
         super().__init__(name, team, index)
-        self.controller = SimpleControllerState()
-        self.flipTimer = 0
+        self.ツ = SimpleControllerState()
+        self.۩ = 0
 
     def initialize_agent(self):
         pass
@@ -46,27 +46,27 @@ class Anarchy(BaseAgent):
         steer_correction_radians = car_direction.correction_to(car_to_ball)
         turn = clamp11(steer_correction_radians * -3)
 
-        if self.flipTimer < 1:
-            self.controller.jump = True
-            self.flipTimer = 1
-        elif self.flipTimer < 2:
-            self.controller.jump = False
-            self.flipTimer = 2
-        elif self.flipTimer < 3:
-            self.controller.jump = True
-            self.flipTimer = 3
-        elif self.flipTimer < 666:
-            self.controller.jump = False
-            self.flipTimer += 6
-        elif self.flipTimer >= 666:
-            self.flipTimer = 0
+        if self.۩ < 1:
+            self.ツ.jump = True
+            self.۩ = 1
+        elif self.۩ < 2:
+            self.ツ.jump = False
+            self.۩ = 2
+        elif self.۩ < 3:
+            self.ツ.jump = True
+            self.۩ = 3
+        elif self.۩ < 666:
+            self.ツ.jump = False
+            self.۩ += 6
+        elif self.۩ >= 666:
+            self.۩ = 0
 
-        self.controller.throttle = 1
-        self.controller.steer = turn
-        self.controller.boost = (abs(turn) < 0.2 and not my_car.is_super_sonic)
-        self.controller.slide = (abs(turn) > 1.5 and not my_car.is_super_sonic)
+        self.ツ.throttle = 1
+        self.ツ.steer = turn
+        self.ツ.boost = (abs(turn) < 0.2 and not my_car.is_super_sonic)
+        self.ツ.slide = (abs(turn) > 1.5 and not my_car.is_super_sonic)
 
-        return self.controller
+        return self.ツ
 
 
 def get_car_facing_vector(car):
