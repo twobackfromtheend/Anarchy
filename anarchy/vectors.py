@@ -28,3 +28,6 @@ class Vector3:
 
     def __sub__(self, val):
         return Vector3(self.x - val.x, self.y - val.y, self.z - val.z)
+
+    def flatten(self) -> Vector2:
+        return Vector2(self.x, self.y)
