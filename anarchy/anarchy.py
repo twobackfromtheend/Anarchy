@@ -53,6 +53,8 @@ class Vector2:
 
         return correction
 
+def sign(value: float) -> float:
+    return 0 if value == 0 else (1 if value > 0 else - 1)
 
 def get_car_facing_vector(car):
     pitch = float(car.physics.rotation.pitch)
