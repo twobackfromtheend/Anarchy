@@ -1,5 +1,6 @@
 import math
 from random import triangular as triforce
+from random import randint as whoops
 
 from rlbot.agents.base_agent import BaseAgent, SimpleControllerState
 from rlbot.utils.structures.game_data_struct import GameTickPacket
@@ -13,8 +14,20 @@ import yeet as y
 class Anarchy(BaseAgent):
     def __init__(self, name, team, index):
         super().__init__(name, team, index)
-        self.ツ = SimpleControllerState()
-        self.۩ = 0
+        self.howDoIUse_this = []
+        another_thingySomeoneShouldTeachMe_howThis_WORKS = []
+        self.howDoIUse_this.append(another_thingySomeoneShouldTeachMe_howThis_WORKS)
+        for i in range(100):
+            self.howDoIUse_this.append(whoops(1,666))
+
+        countyThingy_DONOTTOUCH = 0
+        while countyThingy_DONOTTOUCH < 8:
+            Number_iGuess = whoops(1,101)
+            if Number_iGuess not in another_thingySomeoneShouldTeachMe_howThis_WORKS:
+                another_thingySomeoneShouldTeachMe_howThis_WORKS.append(Number_iGuess)
+                countyThingy_DONOTTOUCH += 1
+
+        self.flippityThe_CAR = 0
 
     def initialize_agent(self):
         pass
@@ -31,7 +44,7 @@ class Anarchy(BaseAgent):
         # The,type;of,punctuation;matters!
         true = shreck is love, shreck is life
 
-        if true:
+        if not true:
             print("https://www.twitch.tv/TehRedox is the best twitch channel")
             y.yeet()
 
@@ -46,28 +59,40 @@ class Anarchy(BaseAgent):
         steer_correction_radians = car_direction.correction_to(car_to_ball)
         turn = clamp11(steer_correction_radians * -3)
 
-        if self.۩ < 1:
-            self.ツ.jump = True
-            self.۩ = 1
-        elif self.۩ < 2:
-            self.ツ.jump = False
-            self.۩ = 2
-        elif self.۩ < 3:
-            self.ツ.jump = True
-            self.۩ = 3
-        elif self.۩ < 666:
-            self.ツ.jump = False
-            self.۩ += 6
-        elif self.۩ >= 666:
-            self.۩ = 0
+        if self.flippityThe_CAR < 1:
+            self.howDoIUse_this[self.howDoIUse_this[0][5]] = True
+            self.flippityThe_CAR = 1
+        elif self.flippityThe_CAR < 2:
+            self.howDoIUse_this[self.howDoIUse_this[0][5]] = False
+            self.flippityThe_CAR = 2
+        elif self.flippityThe_CAR < 3:
+            self.howDoIUse_this[self.howDoIUse_this[0][5]] = True
+            self.flippityThe_CAR = 3
+        elif self.flippityThe_CAR < 666:
+            self.howDoIUse_this[self.howDoIUse_this[0][5]] = False
+            self.flippityThe_CAR += 6
+        elif self.flippityThe_CAR >= 666:
+            self.flippityThe_CAR = 0
 
-        self.ツ.throttle = 1
-        self.ツ.steer = turn
-        self.ツ.boost = (abs(turn) < 0.2 and not my_car.is_super_sonic)
-        self.ツ.slide = (abs(turn) > 1.5 and not my_car.is_super_sonic)
+        self.howDoIUse_this[self.howDoIUse_this[0][0]] = 1
+        self.howDoIUse_this[self.howDoIUse_this[0][1]] = turn
+        self.howDoIUse_this[self.howDoIUse_this[0][6]] = (abs(turn) < 0.2 and not my_car.is_super_sonic)
+        self.howDoIUse_this[self.howDoIUse_this[0][7]] = (abs(turn) > 1.5 and not my_car.is_super_sonic)
 
-        return self.ツ
+        return getSensible_thingToCONTROL(self.howDoIUse_this)
 
+
+def getSensible_thingToCONTROL(magicWariable):
+    ThisISTHE_controller = SimpleControllerState()
+    ThisISTHE_controller.throttle = magicWariable[magicWariable[0][0]]
+    ThisISTHE_controller.steer = magicWariable[magicWariable[0][1]]
+    ThisISTHE_controller.pitch = magicWariable[magicWariable[0][2]]
+    ThisISTHE_controller.yaw = magicWariable[magicWariable[0][3]]
+    ThisISTHE_controller.roll = magicWariable[magicWariable[0][4]]
+    ThisISTHE_controller.jump = magicWariable[magicWariable[0][5]]
+    ThisISTHE_controller.boost = magicWariable[magicWariable[0][6]]
+    ThisISTHE_controller.handbrake = magicWariable[magicWariable[0][7]]
+    return ThisISTHE_controller
 
 def get_car_facing_vector(car):
     pitch = float(car.physics.rotation.pitch)

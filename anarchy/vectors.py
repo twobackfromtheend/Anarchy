@@ -1,5 +1,5 @@
 import math
-from typing import Tuple, Optional
+from typing import Tuple, Optional, Union
 
 import rlbot.utils.structures.game_data_struct as game_data_struct
 
