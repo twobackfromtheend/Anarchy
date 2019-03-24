@@ -23,7 +23,8 @@ class Anarchy(BaseAgent):
         steer_correction_radians = car_direction.correction_to(car_to_ball)
         turn = -1 if steer_correction_radians > 0 else 1
 
-        return SimpleControllerState(1, turn)
+        self.controller = SimpleControllerState(1, turn)
+        return self.controller
 
 class Vector2:
     def __init__(self, x=0, y=0):
