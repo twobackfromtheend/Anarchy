@@ -3,7 +3,6 @@ import math
 import random
 from random import triangular as triforce
 import webbrowser
-import yeet as y
 from rlbot.agents.base_agent import BaseAgent, SimpleControllerState
 from rlbot.utils.structures.game_data_struct import GameTickPacket
 # Anarchy requires the newest rlutilities which cannot be pip installed via `pip install rlutilities` because it is not on PyPI. You must install it via `pip install -e .` after cloning the RLUtilities repository at: https://github.com/samuelpmish/RLUtilities.
@@ -76,21 +75,12 @@ class Anarchy(BaseAgent):
         if true:
             print("https://www.twitch.tv/TehRedox is the best twitch channel")
 
-        """ I don't have enough deletions to delete this mess, so I'll comment it out instead. Please delete if you have enough deletions.
-        self.WHOOPITYScooPTI = 0
-        for i in range(packet.num_cars):
-            self.WHOOPITYScooPTI += packet.game_cars[i].score_info.goals
-
-        if self.WHOOPITYScooPTI > self.CountyTHIS_ALSOdonttuch:
-            self.CountyTHIS_ALSOdonttuch = self.WHOOPITYScooPTI
-        """
-
         self.renderer.begin_rendering(str(y))
         # commented out due to performance concerns
         # self.renderer.draw_polyline_3d([[car_location.x+triforce(-20,20), car_location.y+triforce(-20,20), triforce(shreck(200),200)] for i in range(40)], self.renderer.cyan())
         self.renderer.draw_rect_2d(0, 0, 3840, 2160, True, self.renderer.create_color(64, 246, 74,
                                                                                       138))  # first bot that supports 4k resolution!
-        self.renderer.draw_string_2d(triforce(0, 100), triforce(0, 10), 8, 8, 'BANIME', self.renderer.lime())
+        self.renderer.draw_string_2d(triforce(0, 100), triforce(0, 10), 8, 8, 'ZERO TWO IS BEST GIRL', self.renderer.lime())
         self.renderer.draw_string_2d(triforce(0, 100), triforce(100, 110), 8, 8,
                                      'SCRATCH IS \n ASSEMBLY \n (also banormies) \n https://www.twitch.tv/donutkiller_pro', self.renderer.red())
         self.renderer.end_rendering()
@@ -98,22 +88,6 @@ class Anarchy(BaseAgent):
         steer_correction_radians = car_direction.correction_to(car_to_ball)
         turn = clamp11(steer_correction_radians * 3)
 
-        """ I don't have enough deletions to delete this mess, so I'll comment it out instead. Please delete if you have enough deletions.
-        if self.flippityThe_CAR < 1:
-            self.howDoIUse_this[self.howDoIUse_this[0][5]] = True
-            self.flippityThe_CAR = 1
-        elif self.flippityThe_CAR < 2:
-            self.howDoIUse_this[self.howDoIUse_this[0][5]] = False
-            self.flippityThe_CAR = 2
-        elif self.flippityThe_CAR < 3:
-            self.howDoIUse_this[self.howDoIUse_this[0][5]] = True
-            self.flippityThe_CAR = 3
-        elif self.flippityThe_CAR < 666:
-            self.howDoIUse_this[self.howDoIUse_this[0][5]] = False
-            self.flippityThe_CAR += 6
-        elif self.flippityThe_CAR >= 666:
-            self.flippityThe_CAR = 0
-        """
         self.controller.throttle = 1
         self.controller.steer = turn
         self.controller.boost = (abs(turn) < 0.2 and not my_car.is_super_sonic)
