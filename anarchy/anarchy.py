@@ -89,11 +89,6 @@ class Anarchy(BaseAgent):
         car_to_ball = ball_location - car_location
         # Hi robbie!
 
-        # The,type;of,punctuation;matters!
-        #true = shreck is love, shreck is life
-        main(9)
-        if true:
-            print("https://www.twitch.tv/TehRedox is the best twitch channel")
 
         self.renderer.begin_rendering()
         # commented out due to performance concerns
