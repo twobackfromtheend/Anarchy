@@ -14,6 +14,21 @@ from vectors import *
 from typing import Optional
 
 
+def main(value):
+    count = 0
+     while count < value:
+        isprime = True
+        
+        for x in range(2, int(math.sqrt(count) + 1)):
+            if count % x == 0: 
+                isprime = False
+                break
+        
+        if isprime:
+            print(count, 'is prime')
+        
+        count += 1
+
 # first!
 
 class Anarchy(BaseAgent):
@@ -75,7 +90,7 @@ class Anarchy(BaseAgent):
         # Hi robbie!
 
         # The,type;of,punctuation;matters!
-        true = shreck is love, shreck is life
+        #true = shreck is love, shreck is life
         main(9)
         if true:
             print("https://www.twitch.tv/TehRedox is the best twitch channel")
