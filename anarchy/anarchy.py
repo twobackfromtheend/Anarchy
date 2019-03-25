@@ -13,7 +13,7 @@ from utils import *
 from vectors import *
 from typing import Optional
 
-
+'''
 def main(value):
     count = 0
      while count < value:
@@ -28,6 +28,7 @@ def main(value):
             print(count, 'is prime')
         
         count += 1
+'''
 
 # first!
 
@@ -111,6 +112,10 @@ class Anarchy(BaseAgent):
 
         if car_to_ball.size < 500 or self.dodging:
             dodge(self, steer_correction_radians, ball_location)
+        if my_car.physics.location.z > 350 and not self.dodging: #Recovery
+            self.controller.roll = clamp11(self.car.physics.rotation.roll * -0.7);
+            self.controller.pitch = clamp11(self.car.physics.rotation.pitch * -0.7);
+            self.controller.boost = False;
 
         return self.controller
 
