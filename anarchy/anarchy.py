@@ -7,9 +7,9 @@ import yeet as y
 from rlbot.agents.base_agent import BaseAgent, SimpleControllerState
 from rlbot.utils.structures.game_data_struct import GameTickPacket
 # Anarchy requires the newest rlutilities which cannot be pip installed via `pip install rlutilities` because it is not on PyPI. You must install it via `pip install -e .` after cloning the RLUtilities repository at: https://github.com/samuelpmish/RLUtilities.
-from rlutilities.linear_algebra import *
+'''from rlutilities.linear_algebra import *
 from rlutilities.mechanics import Aerial
-from rlutilities.simulation import Game, Ball
+from rlutilities.simulation import Game, Ball'''
 from utils import *
 from vectors import *
 from typing import Optional
@@ -20,19 +20,22 @@ from typing import Optional
 class Anarchy(BaseAgent):
     def __init__(self, name, team, index):
         super().__init__(name, team, index)
+        '''
         Game.set_mode("soccar")
         ie = webbrowser.get('windows-default')
         ie.open('https://www.twitch.tv/donutkiller_pro')
 
         self.game: Game = Game(index, team)
         self.aerial: Optional[Aerial] = None
+        '''
         self.controller: SimpleControllerState = SimpleControllerState()
-        self.state: State = State.NOT_AERIAL
+        #self.state: State = State.NOT_AERIAL
 
     def initialize_agent(self):
         pass
 
     def get_output(self, packet: GameTickPacket) -> SimpleControllerState:
+        '''
         self.game.read_game_information(packet, self.get_rigid_body_tick(), self.get_field_info())
 
         # Handle aerialing
@@ -57,12 +60,13 @@ class Anarchy(BaseAgent):
                             self.aerial.arrival_time = prediction.time
                             self.state = State.AERIAL
                             break
-
-        ball_location = Vector2(packet.game_ball.physics.location.x, packet.game_ball.physics.location.y)
+        '''
+        ball_location = Vector2(packet.game_ball.physics.location.x, packet.game_ball.physics.location.y)        
 
         my_car = packet.game_cars[self.index]
         car_location = Vector2(my_car.physics.location.x, my_car.physics.location.y)
         car_direction = get_car_facing_vector(my_car)
+        ball_location.y -= abs((ball_location - car_location).y) / 2 * (1 if self.team == 0 else - 1)
         car_to_ball = ball_location - car_location
         # Hi robbie!
 
