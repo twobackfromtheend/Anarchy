@@ -85,11 +85,14 @@ class Anarchy(BaseAgent):
         my_car = packet.game_cars[self.index]
         self.car = my_car
         car_location = Vector2(my_car.physics.location.x, my_car.physics.location.y)
+        car_velocity = Vector3(my_car.physics.velocity.x, my_car.physics.velocity.y, my_car.physics.velocity.z)
         car_direction = get_car_facing_vector(my_car)
         ball_location.y -= abs((ball_location - car_location).y) / 2 * (1 if self.team == 0 else - 1)
         car_to_ball = ball_location - car_location
         # Hi robbie!
-
+        time = bounce_time(packet.game_ball.physics.location.z - 92.75, -packet.game_ball.physics.velocity.z)
+        bounce_location = Vector2(packet.game_ball.physics.location.x, packet.game_ball.physics.location.y) #FEEL FREE TO CHANGE THIS TO ACTUALLY GET THE BOUNCE FROM PREDICTION
+        target_velocity = (bounce_location - car_location).length / time
 
         self.renderer.begin_rendering()
         # commented out due to performance concerns
@@ -104,18 +107,18 @@ class Anarchy(BaseAgent):
         steer_correction_radians = car_direction.correction_to(car_to_ball)
         turn = clamp11(steer_correction_radians * 3)
 
-        self.controller.throttle = 1
+        self.controller.throttle = (clamp11((target_velocity - car_velocity.flatten().length) / 400) if target_velocity < 1300 and math.cos(steer_correction_radians) > 0.5 else 1)
         self.controller.steer = turn
-        self.controller.boost = (abs(turn) < 0.2 and not my_car.is_super_sonic)
+        self.controller.boost = (abs(turn) < 0.2 and not my_car.is_super_sonic and (target_velocity > 1410 or target_velocity > car_velocity.flatten().length + 400))
         self.controller.handbrake = (abs(turn) > 1.5 and not my_car.is_super_sonic)
         self.controller.jump = False
 
-        if car_to_ball.size < 500 or self.dodging:
+        if (car_to_ball.size < 300 and car_velocity.size > 1000 and packet.game_ball.physics.location.z < 400) or self.dodging:
             dodge(self, steer_correction_radians, ball_location)
         if my_car.physics.location.z > 350 and not self.dodging: #Recovery
             self.controller.roll = clamp11(self.car.physics.rotation.roll * -0.7);
             self.controller.pitch = clamp11(self.car.physics.rotation.pitch * -0.7);
-            self.controller.boost = False;
+            self.controller.boost = False
 
         return self.controller
 
@@ -149,3 +152,8 @@ def get_car_facing_vector(car):
     facing_y = math.cos(pitch) * math.sin(yaw)
 
     return Vector2(facing_x, facing_y)
+
+def bounce_time(s: float, u: float, a: float=650):
+    try:
+        return (math.sqrt(2 * a * s + u ** 2) - u) / a
+    except: return 0.000000001
