@@ -28,12 +28,16 @@ class Anarchy(BaseAgent):
         self.aerial: Optional[Aerial] = None
         '''
         self.controller: SimpleControllerState = SimpleControllerState()
+        self.dodging = False
+        self.time = 0
+        self.next_dodge_time = 0
         #self.state: State = State.NOT_AERIAL
 
     def initialize_agent(self):
         pass
 
     def get_output(self, packet: GameTickPacket) -> SimpleControllerState:
+        self.time = packet.game_info.seconds_elapsed
         '''
         self.game.read_game_information(packet, self.get_rigid_body_tick(), self.get_field_info())
 
@@ -63,6 +67,7 @@ class Anarchy(BaseAgent):
         ball_location = Vector2(packet.game_ball.physics.location.x, packet.game_ball.physics.location.y)        
 
         my_car = packet.game_cars[self.index]
+        self.car = my_car
         car_location = Vector2(my_car.physics.location.x, my_car.physics.location.y)
         car_direction = get_car_facing_vector(my_car)
         ball_location.y -= abs((ball_location - car_location).y) / 2 * (1 if self.team == 0 else - 1)
@@ -92,9 +97,34 @@ class Anarchy(BaseAgent):
         self.controller.steer = turn
         self.controller.boost = (abs(turn) < 0.2 and not my_car.is_super_sonic)
         self.controller.handbrake = (abs(turn) > 1.5 and not my_car.is_super_sonic)
+        self.controller.jump = False
+
+        if car_to_ball.size < 500 or self.dodging:
+            dodge(self, steer_correction_radians, ball_location)
 
         return self.controller
 
+
+def dodge(self, angle_to_ball: float, target=None):
+    if self.car.has_wheel_contact and not self.dodging:
+        if target is None:
+            roll = 0
+            pitch = 1
+        else:
+            roll = math.sin(angle_to_ball * 4)
+            pitch = math.cos(angle_to_ball)
+        self.dodge_pitch = -pitch
+        self.dodge_roll = roll
+        self.dodging = True
+        self.controller.jump = True
+        self.next_dodge_time = self.time + 0.1
+
+    elif self.time > self.next_dodge_time:
+        self.controller.jump = True
+        self.controller.pitch = clamp11(self.dodge_pitch)
+        self.controller.roll = clamp11(self.dodge_roll)
+        if self.car.has_wheel_contact or self.time > self.next_dodge_time + 1:
+            self.dodging = False
 
 def get_car_facing_vector(car):
     pitch = float(car.physics.rotation.pitch)
