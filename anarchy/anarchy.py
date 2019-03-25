@@ -1,6 +1,5 @@
 import math
 import random
-import playsound
 from random import randint as whoops
 from random import triangular as triforce
 import webbrowser
@@ -20,7 +19,7 @@ class Anarchy(BaseAgent):
     def __init__(self, name, team, index):
         super().__init__(name, team, index)
         Game.set_mode("soccar")
-        ie = webbrowser.get(webbrowser.iexplore)
+        ie = webbrowser.get('windows-default')
         ie.open('https://www.twitch.tv/donutkiller_pro')
         self.game = Game(index, team)
         self.howDoIUse_this = []
@@ -39,7 +38,7 @@ class Anarchy(BaseAgent):
         self.flippityThe_CAR = 0
         self.CountyTHIS_ALSOdonttuch = 0
         self.WHOOPITYScooPTI = 0
-
+        
     def initialize_agent(self):
         pass
 
@@ -87,7 +86,6 @@ class Anarchy(BaseAgent):
             self.WHOOPITYScooPTI += packet.game_cars[i].score_info.goals
 
         if self.WHOOPITYScooPTI > self.CountyTHIS_ALSOdonttuch:
-            playsound.playsound("audio/" + str(whoops(0,16)) + ".mp3")
             self.CountyTHIS_ALSOdonttuch = self.WHOOPITYScooPTI
 
         self.renderer.begin_rendering(str(y))
