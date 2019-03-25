@@ -95,6 +95,9 @@ class Vector2:
     def as_tuple(self) -> Tuple[float, float]:
         return self.x, self.y
 
+    def normalize(self):
+        self /= self.size
+
 def main(a=0):
     rand = random.uniform(0, 1)
     if rand < 1 / (120*60*5):
@@ -128,6 +131,34 @@ class Vector3:
     def __sub__(self, val):
         return Vector3(self.x - val.x, self.y - val.y, self.z - val.z)
 
+    def __mul__(self, v: float) -> "Vector3":
+        return Vector2(self.x * v, self.y * v, self.z * v)
+
+    def __truediv__(self, v: float) -> "Vector3":
+        return Vector2(self.x / v, self.y / v, self.z / v)
+
+    def __rmul__(self, v: float) -> "Vector3":
+        return Vector2(self.x * v, self.y * v, self.z * v)
+
+    def __rtruediv__(self, v: float) -> "Vector3":
+        return Vector2(self.x / v, self.y / v, self.z / v)
+
+    def __str__(self) -> str:
+        return f"({self.x}, {self.y}, {self.z})"
+
+    def __repr__(self) -> str:
+        return self.__str__()
+    
+    def __eq__(self, other: "Vector3") -> bool:
+        if isinstance(other, Vector3):
+            if other.x == self.y and other.y == self.y and other.z == self.z:
+                return True
+            return False
+        return False
+
+    def __neg__(self) -> "Vector3":
+        return -1 * self
+
     def flatten(self) -> Vector2:
         return Vector2(self.x, self.y)
 
@@ -138,6 +169,9 @@ class Vector3:
     @property
     def size(self) -> float:
         return self.length
+
+    def normalize(self):
+        self /= self.size
 
 class life(int):
     math = False

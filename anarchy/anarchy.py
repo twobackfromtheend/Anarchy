@@ -75,7 +75,7 @@ class Anarchy(BaseAgent):
         if true:
             print("https://www.twitch.tv/TehRedox is the best twitch channel")
 
-        self.renderer.begin_rendering(str(y))
+        self.renderer.begin_rendering()
         # commented out due to performance concerns
         # self.renderer.draw_polyline_3d([[car_location.x+triforce(-20,20), car_location.y+triforce(-20,20), triforce(shreck(200),200)] for i in range(40)], self.renderer.cyan())
         self.renderer.draw_rect_2d(0, 0, 3840, 2160, True, self.renderer.create_color(64, 246, 74,
