@@ -18,3 +18,4 @@ Make sure to pull from this repo before pushing to your fork to avoid merge conf
 If Anarchy isn't broken, it should work! :^) Visit http://www.rlbot.org/ to learn more about RLBot and to run Anarchy.
 
 Have fun with Anarchy! Don't break it! :)
+test
